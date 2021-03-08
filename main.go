@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"html/template"
 	"net/http"
 )
 
@@ -10,17 +10,22 @@ const portNumber = ":8080"
 
 // Home - this is the home page handler
 func Home(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprintf(w, "Welcome to the home page")
-	if err != nil {
-		log.Fatalln("Cannot load the home page", err)
-	}
+	renderTemplate(w, "home.page.tmpl")
 }
 
 // About - this is the about page handler
 func About(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprintf(w, "This is the about page")
+	renderTemplate(w, "about.page.tmpl")
+}
+
+func renderTemplate(w http.ResponseWriter, tmpl string) {
+	// 1. Parse file
+	parsedTmpl, _ := template.ParseFiles("./templates/" + tmpl)
+
+	// 2. Execute parsed file
+	err := parsedTmpl.Execute(w, nil)
 	if err != nil {
-		log.Fatalln("Cannot load the about page", err)
+		fmt.Println("error parsing template", err)
 	}
 }
 
