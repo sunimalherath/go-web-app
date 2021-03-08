@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-var portNumber = ":8080"
+const portNumber = ":8080"
 
 // Home - this is the home page handler
 func Home(w http.ResponseWriter, r *http.Request) {
