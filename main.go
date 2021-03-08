@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+var portNumber = ":8080"
+
 // Home - this is the home page handler
 func Home(w http.ResponseWriter, r *http.Request) {
 	_, err := fmt.Fprintf(w, "Welcome to the home page")
@@ -24,7 +26,7 @@ func About(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", Home)
-	http.HandleFunc("/About", About)
+	http.HandleFunc("/about", About)
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(portNumber, nil)
 }
