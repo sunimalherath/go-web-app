@@ -3,6 +3,7 @@ package render
 import (
 	"bytes"
 	"fmt"
+	"github.com/sunimalherath/go-web-app/pkg/models"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -21,7 +22,7 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 // RenderTemplate renders templates using text/template
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 	if app.UseCache {
 		// get the template cache from the app config
@@ -38,7 +39,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer) // create to execute the template into this buffer
 
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 
