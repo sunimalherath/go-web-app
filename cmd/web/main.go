@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/sunimalherath/go-web-app/pkg/config"
 	"github.com/sunimalherath/go-web-app/pkg/handlers"
 	"github.com/sunimalherath/go-web-app/pkg/render"
+	"log"
+	"net/http"
 )
 
 const portNumber = ":8080"
@@ -25,8 +25,18 @@ func main() {
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 
-	http.HandleFunc("/", handlers.Repo.Home)
-	http.HandleFunc("/about", handlers.Repo.About)
+	//http.HandleFunc("/", handlers.Repo.Home)
+	//http.HandleFunc("/about", handlers.Repo.About)
 
-	http.ListenAndServe(portNumber, nil)
+	//http.ListenAndServe(portNumber, nil)
+
+	srv := &http.Server{
+		Addr: portNumber,
+		Handler: routes(&app),
+	}
+
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
