@@ -9,10 +9,12 @@ import (
 	"net/http"
 )
 
+var app config.AppConfig
+
 const portNumber = ":8080"
 
 func main() {
-	var app config.AppConfig
+	app.InProduction = false
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		fmt.Println("Unable to create template cache, ", err)
